@@ -1,0 +1,38 @@
+# =============================================================
+#  PROJECTS  —  ✏️ THIS IS THE FILE YOU EDIT MOST OFTEN
+# -------------------------------------------------------------
+#  Each project is one "- " block. Copy a block to add a new
+#  project. Rules for this simple parser:
+#    • Keep the two-space indentation for fields.
+#    • Wrap text values in "double quotes".
+#    • "tech" is a list of quoted strings in [square brackets].
+#    • "url" can be a real link or null (no quotes on null).
+# =============================================================
+
+- id: "01"
+  title: "Example iOS App"
+  subtitle: "Mobile / Swift"
+  description: "A sample project card. Replace this with a real app you built — what it does and your role."
+  tech: ["Swift", "SwiftUI", "MVVM"]
+  url: null
+
+- id: "02"
+  title: "This Portfolio"
+  subtitle: "Web / Static Site"
+  description: "The site you're looking at — a zero-dependency portfolio built with plain HTML, CSS and JavaScript, deployed on GitHub Pages."
+  tech: ["JavaScript", "CSS", "GitHub Pages"]
+  url: "https://github.com/DChirondio/dchirondio.github.io"
+
+- id: "03"
+  title: "CLI Tool"
+  subtitle: "Tooling / Python"
+  description: "A command-line utility that automates a repetitive task. Swap in one of your own scripts or tools."
+  tech: ["Python", "CLI"]
+  url: null
+
+- id: "04"
+  title: "Web Service"
+  subtitle: "Backend / TypeScript"
+  description: "A small API or web service. Describe the problem it solves and the interesting bits of the implementation."
+  tech: ["TypeScript", "Node.js", "REST"]
+  url: null
