@@ -1,5 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" width="720" height="520" fill="none" role="img" aria-label="Xcode editor illustration">
   <defs>
+    <clipPath id="winClip">
+      <rect x="0" y="0" width="680" height="480" rx="12"/>
+    </clipPath>
     <style>
       /* Xcode Default (Dark) syntax palette */
       .kw   { fill:#ff7ab2; }  /* keywords */
@@ -15,18 +18,17 @@
   </defs>
 
   <!-- Xcode editor window -->
-  <g transform="translate(20 20)">
+  <g transform="translate(20 20)" clip-path="url(#winClip)">
     <!-- window body -->
-    <rect x="0" y="0" width="680" height="480" rx="12" fill="#292a30" fill-opacity="0.95"/>
+    <rect x="0" y="0" width="680" height="480" fill="#292a30" fill-opacity="0.95"/>
     <!-- title bar -->
-    <rect x="0" y="0" width="680" height="40" rx="12" fill="#3a3b41" fill-opacity="0.98"/>
-    <rect x="0" y="20" width="680" height="20" fill="#3a3b41" fill-opacity="0.98"/>
+    <rect x="0" y="0" width="680" height="40" fill="#3a3b41" fill-opacity="0.98"/>
     <!-- traffic lights -->
     <circle cx="24" cy="20" r="6.5" fill="#ec6a5e"/>
     <circle cx="46" cy="20" r="6.5" fill="#f4bf4f"/>
     <circle cx="68" cy="20" r="6.5" fill="#61c454"/>
-    <!-- filename tab -->
-    <text class="gutter" x="330" y="25" fill="#a4a7ad">ContentView.swift</text>
+    <!-- filename tab (centered) -->
+    <text class="gutter" x="340" y="25" text-anchor="middle" fill="#a4a7ad">ContentView.swift</text>
 
     <!-- line-number gutter -->
     <rect x="0" y="40" width="48" height="440" fill="#2a2b31"/>
