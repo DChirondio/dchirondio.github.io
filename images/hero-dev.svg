@@ -56,7 +56,7 @@
       <tspan class="type">VStack</tspan><tspan class="pl"> {</tspan>
     </text>
     <text class="code" x="138" y="244">
-      <tspan class="type">Text</tspan><tspan class="pl">(</tspan><tspan class="str">"Diogo Chirondio"</tspan><tspan class="pl">)</tspan>
+      <tspan class="type">Text</tspan><tspan class="pl">(</tspan><tspan class="str">"Diogo Chirôndio"</tspan><tspan class="pl">)</tspan>
     </text>
     <text class="code" x="162" y="282">
       <tspan class="pl">.</tspan><tspan class="fn">font</tspan><tspan class="pl">(</tspan><tspan class="fn">.largeTitle</tspan><tspan class="pl">)</tspan>

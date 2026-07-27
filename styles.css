@@ -166,7 +166,8 @@ html[data-theme="light"] .icon-moon { display: none; }
 .skills-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.8rem; }
 .skill-tag {
   font-family: var(--font-mono); font-size: 0.78rem; color: var(--text);
-  background: var(--surface); border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
   padding: 0.35rem 0.7rem; border-radius: 999px;
 }
 .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-content: start; }
@@ -197,7 +198,7 @@ html[data-theme="light"] .icon-moon { display: none; }
 .project-sub { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); margin-bottom: 0.8rem; }
 .project-desc { color: var(--muted); font-size: 0.9rem; margin-bottom: 1rem; }
 .project-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.tech-badge { font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); border: 1px solid var(--border); border-radius: 6px; padding: 0.2rem 0.5rem; }
+.tech-badge { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text); background: color-mix(in srgb, var(--accent) 14%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); border-radius: 999px; padding: 0.2rem 0.5rem; }
 .project-link { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1rem; font-size: 0.85rem; color: var(--accent); }
 .project-card.hidden { display: none; }
 .projects-empty { grid-column: 1 / -1; color: var(--muted); font-family: var(--font-mono); font-size: 0.85rem; padding: 2rem 0; text-align: center; }
