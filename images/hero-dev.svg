@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 680" width="760" height="680" fill="none" role="img" aria-label="Swift iOS development illustration">
+  <defs>
+    <linearGradient id="swiftIcon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f88a5a"/>
+      <stop offset="1" stop-color="#f05138"/>
+    </linearGradient>
+    <linearGradient id="tealGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5bbac5"/>
+      <stop offset="1" stop-color="#409ba5"/>
+    </linearGradient>
+    <style>
+      .kw { fill:#409ba5; }
+      .str { fill:#c8852a; }
+      .pl { fill:#8b95a1; }
+      .code { font-family:'JetBrains Mono', ui-monospace, monospace; font-size:19px; font-weight:500; }
+    </style>
+  </defs>
+
+  <g opacity="0.9">
+    <!-- Swift-orange app icon (squircle) with stylised swift bird -->
+    <g transform="translate(536 40)">
+      <rect x="0" y="0" width="184" height="184" rx="42" fill="url(#swiftIcon)"/>
+      <path d="M58 40
+               C 96 62, 122 96, 132 132
+               C 118 120, 104 113, 92 111
+               C 111 132, 125 158, 129 182
+               C 104 160, 74 150, 50 152
+               C 72 141, 90 133, 101 130
+               C 78 108, 58 76, 58 40 Z"
+            fill="#ffffff" opacity="0.96"/>
+    </g>
+
+    <!-- Code editor window (SwiftUI) -->
+    <g transform="translate(40 150)">
+      <rect x="0" y="0" width="470" height="360" rx="20" fill="#15181c" fill-opacity="0.92" stroke="#2b6f78" stroke-width="1.5"/>
+      <rect x="0" y="0" width="470" height="46" rx="20" fill="#1b1f24" fill-opacity="0.9"/>
+      <rect x="0" y="24" width="470" height="22" fill="#1b1f24" fill-opacity="0.9"/>
+      <circle cx="26" cy="23" r="7" fill="#f05138"/>
+      <circle cx="50" cy="23" r="7" fill="#c8852a"/>
+      <circle cx="74" cy="23" r="7" fill="#409ba5"/>
+
+      <text class="code" x="26" y="92">
+        <tspan class="kw">import</tspan><tspan class="pl"> SwiftUI</tspan>
+      </text>
+      <text class="code" x="26" y="130">
+        <tspan class="kw">struct</tspan><tspan class="pl"> ContentView: </tspan><tspan class="kw">View</tspan><tspan class="pl"> {</tspan>
+      </text>
+      <text class="code" x="50" y="168">
+        <tspan class="kw">var</tspan><tspan class="pl"> body: </tspan><tspan class="kw">some</tspan><tspan class="pl"> View {</tspan>
+      </text>
+      <text class="code" x="74" y="206">
+        <tspan class="pl">VStack {</tspan>
+      </text>
+      <text class="code" x="98" y="244">
+        <tspan class="pl">Text(</tspan><tspan class="str">"Diogo Chirondio"</tspan><tspan class="pl">)</tspan>
+      </text>
+      <text class="code" x="98" y="282">
+        <tspan class="pl">.font(</tspan><tspan class="str">.largeTitle</tspan><tspan class="pl">)</tspan>
+      </text>
+      <text class="code" x="74" y="320">
+        <tspan class="pl">}</tspan>
+      </text>
+      <text class="code" x="50" y="336">
+        <tspan class="pl">}</tspan>
+      </text>
+    </g>
+
+    <!-- Streaming play glyph (nods to Peacock / Showmax / NOW) -->
+    <g transform="translate(556 402)">
+      <circle cx="72" cy="72" r="72" fill="url(#tealGrad)"/>
+      <path d="M58 44 L108 72 L58 100 Z" fill="#ffffff"/>
+    </g>
+
+    <!-- App-icon dot row -->
+    <g transform="translate(96 548)" opacity="0.85">
+      <rect x="0"   y="0" width="54" height="54" rx="14" fill="none" stroke="#409ba5" stroke-width="2"/>
+      <rect x="74"  y="0" width="54" height="54" rx="14" fill="none" stroke="#409ba5" stroke-width="2"/>
+      <rect x="148" y="0" width="54" height="54" rx="14" fill="none" stroke="#c8852a" stroke-width="2"/>
+      <rect x="222" y="0" width="54" height="54" rx="14" fill="none" stroke="#409ba5" stroke-width="2"/>
+      <rect x="296" y="0" width="54" height="54" rx="14" fill="none" stroke="#f05138" stroke-width="2"/>
+    </g>
+  </g>
+</svg>

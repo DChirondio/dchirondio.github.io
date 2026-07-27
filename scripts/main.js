@@ -28,7 +28,6 @@ document.getElementById('year').textContent = new Date().getFullYear();
 const grid = document.getElementById('project-grid');
 let observer;
 let allProjects = [];
-let activeTag = 'All';
 let searchTerm = '';
 
 function parseYamlScalar(rawValue) {
@@ -81,17 +80,15 @@ function escapeHtml(str) {
 }
 
 function projectMatches(p) {
-  const tagOk = activeTag === 'All' || p.tech.includes(activeTag);
   const q = searchTerm.toLowerCase();
-  const searchOk = !q || (p.title + ' ' + p.subtitle + ' ' + p.description + ' ' + p.tech.join(' ')).toLowerCase().includes(q);
-  return tagOk && searchOk;
+  return !q || (p.title + ' ' + p.subtitle + ' ' + p.description + ' ' + p.tech.join(' ')).toLowerCase().includes(q);
 }
 
 function renderProjects() {
   const visible = allProjects.filter(projectMatches);
   const total = allProjects.length.toString().padStart(2, '0');
   if (visible.length === 0) {
-    grid.innerHTML = '<p class="projects-empty">No projects match your filter.</p>';
+    grid.innerHTML = '<p class="projects-empty">No projects match your search.</p>';
     return;
   }
   grid.innerHTML = visible.map((p) => `
@@ -108,19 +105,6 @@ function renderProjects() {
     </article>`).join('');
 }
 
-function renderFilterTags() {
-  const tags = ['All', ...Array.from(new Set(allProjects.flatMap((p) => p.tech)))];
-  const wrap = document.getElementById('filter-tags');
-  wrap.innerHTML = tags.map((t) => `<button class="filter-chip${t === activeTag ? ' active' : ''}" data-tag="${escapeHtml(t)}">${escapeHtml(t)}</button>`).join('');
-  wrap.querySelectorAll('.filter-chip').forEach((chip) => {
-    chip.addEventListener('click', () => {
-      activeTag = chip.dataset.tag;
-      wrap.querySelectorAll('.filter-chip').forEach((c) => c.classList.toggle('active', c === chip));
-      renderProjects();
-    });
-  });
-}
-
 document.getElementById('project-search').addEventListener('input', (e) => {
   searchTerm = e.target.value;
   renderProjects();
@@ -132,7 +116,6 @@ async function loadProjects() {
     if (!res.ok) throw new Error('Failed to load projects.yml');
     allProjects = parseProjectsYaml(await res.text());
     if (allProjects.length === 0) throw new Error('No projects found');
-    renderFilterTags();
     renderProjects();
   } catch (err) {
     console.error('Unable to load projects:', err);
@@ -207,49 +190,10 @@ navOverlay.addEventListener('click', closeMenu);
 navLinks.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
 
 /* =============================================================
-   COMMAND PALETTE (⌘K / Ctrl+K)
+   KEYBOARD — Escape closes the mobile menu
    ============================================================= */
-const cmdkBackdrop = document.getElementById('cmdk-backdrop');
-const cmdkInput = document.getElementById('cmdk-input');
-const cmdkList = document.getElementById('cmdk-list');
-const commands = [
-  { label: 'Go to About', hint: '01', action: () => location.hash = '#about' },
-  { label: 'Go to Projects', hint: '02', action: () => location.hash = '#projects' },
-  { label: 'Go to GitHub', hint: '03', action: () => location.hash = '#github' },
-  { label: 'Go to Contact', hint: '04', action: () => location.hash = '#contact' },
-  { label: 'Toggle theme', hint: '◐', action: () => document.getElementById('theme-toggle').click() },
-  { label: 'Open GitHub profile', hint: '↗', action: () => window.open(`https://github.com/${GITHUB_USERNAME}`, '_blank') }
-];
-let cmdkActive = 0;
-
-function renderCmdk(filter = '') {
-  const items = commands.filter((c) => c.label.toLowerCase().includes(filter.toLowerCase()));
-  cmdkActive = 0;
-  cmdkList.innerHTML = items.map((c, i) => `<li data-i="${i}" class="${i === 0 ? 'active' : ''}">${c.label}<span class="k">${c.hint}</span></li>`).join('') || '<li>No matches</li>';
-  cmdkList._items = items;
-  cmdkList.querySelectorAll('li[data-i]').forEach((li) => {
-    li.addEventListener('click', () => runCmdk(items[+li.dataset.i]));
-  });
-}
-function runCmdk(cmd) { if (cmd) { cmd.action(); closeCmdk(); } }
-function openCmdk() { cmdkBackdrop.classList.add('open'); cmdkInput.value = ''; renderCmdk(); cmdkInput.focus(); }
-function closeCmdk() { cmdkBackdrop.classList.remove('open'); }
-
-document.getElementById('cmdk-open').addEventListener('click', openCmdk);
-cmdkInput.addEventListener('input', (e) => renderCmdk(e.target.value));
-cmdkBackdrop.addEventListener('click', (e) => { if (e.target === cmdkBackdrop) closeCmdk(); });
-cmdkInput.addEventListener('keydown', (e) => {
-  const lis = cmdkList.querySelectorAll('li[data-i]');
-  if (e.key === 'ArrowDown') { e.preventDefault(); cmdkActive = Math.min(cmdkActive + 1, lis.length - 1); }
-  else if (e.key === 'ArrowUp') { e.preventDefault(); cmdkActive = Math.max(cmdkActive - 1, 0); }
-  else if (e.key === 'Enter') { e.preventDefault(); runCmdk(cmdkList._items[cmdkActive]); return; }
-  else return;
-  lis.forEach((li, i) => li.classList.toggle('active', i === cmdkActive));
-});
-
 document.addEventListener('keydown', (e) => {
-  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openCmdk(); }
-  if (e.key === 'Escape') { closeCmdk(); closeMenu(); }
+  if (e.key === 'Escape') closeMenu();
 });
 
 /* =============================================================
