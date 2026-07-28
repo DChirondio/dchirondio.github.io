@@ -161,6 +161,30 @@ async function loadGitHubRepos() {
 loadGitHubRepos();
 
 /* =============================================================
+   GITHUB — contribution heatmap (retries the third-party
+   ghchart service, which frequently times out on a cold start)
+   ============================================================= */
+function loadGitHubHeatmap() {
+  const img = document.getElementById('gh-heatmap');
+  const container = document.getElementById('gh-heatmap-container');
+  if (!img || !container) return;
+  const baseSrc = `https://ghchart.rshah.org/2188ff/${GITHUB_USERNAME}`;
+  const maxAttempts = 4;
+  let attempts = 0;
+  function retry() {
+    if (attempts >= maxAttempts) {
+      container.innerHTML = `<p class="gh-loading">Contribution graph available at <a href="https://github.com/${GITHUB_USERNAME}" target="_blank" rel="noopener noreferrer">github.com/${GITHUB_USERNAME}</a></p>`;
+      return;
+    }
+    attempts += 1;
+    setTimeout(() => { img.src = `${baseSrc}?retry=${attempts}`; }, attempts * 1200);
+  }
+  img.addEventListener('error', retry);
+  if (img.complete && img.naturalWidth === 0) retry();
+}
+loadGitHubHeatmap();
+
+/* =============================================================
    NAV — scroll state + mobile hamburger
    ============================================================= */
 const nav = document.getElementById('main-nav');

@@ -137,16 +137,13 @@ html[data-theme="light"] .icon-moon { display: none; }
 .hero-bg {
   position: absolute; inset: 0; z-index: -1;
   background:
-    radial-gradient(60% 50% at 20% 20%, color-mix(in srgb, var(--accent) 22%, transparent), transparent),
-    radial-gradient(50% 50% at 85% 70%, color-mix(in srgb, var(--accent-2) 16%, transparent), transparent);
+    radial-gradient(60% 50% at 20% 20%, color-mix(in srgb, var(--accent) 22%, transparent), transparent);
 }
 .hero-bg::after {
   content: ""; position: absolute; inset: 0; pointer-events: none;
   background: url('images/hero-dev.svg') no-repeat right center;
   background-size: auto 78%;
   opacity: 0.9;
-  -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent 88%);
-  mask-image: linear-gradient(to bottom, #000 45%, transparent 88%);
 }
 #hero h1 { font-size: clamp(3rem, 12vw, 8rem); font-weight: 700; }
 .hero-sub { color: var(--muted); font-size: 1.15rem; margin: 1.2rem 0 2rem; max-width: 40ch; }
