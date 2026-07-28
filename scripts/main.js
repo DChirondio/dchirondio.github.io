@@ -161,26 +161,167 @@ async function loadGitHubRepos() {
 loadGitHubRepos();
 
 /* =============================================================
-   GITHUB — contribution heatmap (retries the third-party
-   ghchart service, which frequently times out on a cold start)
+   GITHUB — contribution heatmap
+   Fetches real per-day contribution data (date + count + level)
+   from a CORS-enabled API and renders our own SVG grid so each
+   day is hoverable and shows an accurate tooltip. Retries the
+   request a few times, then falls back to a text link.
    ============================================================= */
+const SVGNS = 'http://www.w3.org/2000/svg';
+/* level 0..4 -> grey + four blue shades derived from --accent (#409ba5) */
+const HEATMAP_COLORS = ['#20262c', '#0e4f56', '#1a7d88', '#2ea6b3', '#4fd3df'];
+const CELL = 11, GAP = 3, STEP = CELL + GAP;
+
+/* colour cells by absolute commit count (not the API's relative level),
+   so days with different counts always get different shades */
+function levelForCount(count) {
+  if (count <= 0) return 0;
+  if (count <= 2) return 1;
+  if (count <= 5) return 2;
+  if (count <= 9) return 3;
+  return 4;
+}
+/* gutters for the month (top) and weekday (left) labels */
+const LEFT_PAD = 30, TOP_PAD = 16;
+const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const WEEKDAY_LABELS = { 1: 'Mon', 3: 'Wed', 5: 'Fri' };
+
+function formatHeatmapDate(iso) {
+  const d = new Date(iso + 'T00:00:00');
+  return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function renderHeatmap(container, tooltip, days) {
+  /* group days into week columns starting on Sunday */
+  const weeks = [];
+  let week = [];
+  days.forEach((day) => {
+    const dow = new Date(day.date + 'T00:00:00').getDay();
+    if (week.length === 0 && dow !== 0) for (let i = 0; i < dow; i++) week.push(null);
+    week.push(day);
+    if (dow === 6) { weeks.push(week); week = []; }
+  });
+  if (week.length) weeks.push(week);
+
+  const width = LEFT_PAD + weeks.length * STEP;
+  const height = TOP_PAD + 7 * STEP;
+  const svg = document.createElementNS(SVGNS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+  svg.setAttribute('width', '100%');
+  svg.setAttribute('class', 'gh-heatmap-svg');
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', 'GitHub contribution heatmap');
+
+  /* find the column where each month first starts */
+  const monthStarts = [];
+  let prevMonth = -1;
+  weeks.forEach((wk, wi) => {
+    const firstDay = wk.find((d) => d);
+    if (!firstDay) return;
+    const month = new Date(firstDay.date + 'T00:00:00').getMonth();
+    if (month !== prevMonth) {
+      monthStarts.push({ col: wi, month });
+      prevMonth = month;
+    }
+  });
+  /* drop a leading partial month (e.g. a stray "Jul" at column 0 that only
+     spans a column or two before the next month) so it doesn't leave a gap */
+  if (monthStarts.length > 1 && monthStarts[1].col - monthStarts[0].col < 3) {
+    monthStarts.shift();
+  }
+
+  /* month labels across the top */
+  monthStarts.forEach(({ col, month }) => {
+    const text = document.createElementNS(SVGNS, 'text');
+    text.setAttribute('x', LEFT_PAD + col * STEP);
+    text.setAttribute('y', TOP_PAD - 5);
+    text.setAttribute('class', 'gh-label');
+    text.textContent = MONTH_NAMES[month];
+    svg.appendChild(text);
+  });
+
+  /* weekday labels down the left (Mon / Wed / Fri) */
+  Object.keys(WEEKDAY_LABELS).forEach((dowStr) => {
+    const dow = Number(dowStr);
+    const text = document.createElementNS(SVGNS, 'text');
+    text.setAttribute('x', LEFT_PAD - 6);
+    text.setAttribute('y', TOP_PAD + dow * STEP + CELL - 1);
+    text.setAttribute('text-anchor', 'end');
+    text.setAttribute('class', 'gh-label');
+    text.textContent = WEEKDAY_LABELS[dow];
+    svg.appendChild(text);
+  });
+
+  weeks.forEach((wk, wi) => {
+    wk.forEach((day, di) => {
+      if (!day) return;
+      const rect = document.createElementNS(SVGNS, 'rect');
+      rect.setAttribute('x', LEFT_PAD + wi * STEP);
+      rect.setAttribute('y', TOP_PAD + di * STEP);
+      rect.setAttribute('width', CELL);
+      rect.setAttribute('height', CELL);
+      rect.setAttribute('rx', 2);
+      rect.setAttribute('class', 'gh-cell');
+      rect.setAttribute('fill', HEATMAP_COLORS[levelForCount(day.count)]);
+      const noun = day.count === 1 ? 'contribution' : 'contributions';
+      rect.setAttribute('data-tip', `${day.count} ${noun} on ${formatHeatmapDate(day.date)}`);
+      svg.appendChild(rect);
+    });
+  });
+
+  container.innerHTML = '';
+  container.appendChild(svg);
+
+  /* position the tooltip relative to the heatmap wrap (its offset parent),
+     using the cell's on-screen box so it tracks even when scrolled */
+  const anchor = tooltip.offsetParent || container;
+  function showTip(e) {
+    const tip = e.target.getAttribute('data-tip');
+    if (!tip) return;
+    tooltip.textContent = tip;
+    tooltip.setAttribute('aria-hidden', 'false');
+    tooltip.classList.add('visible');
+    const aRect = anchor.getBoundingClientRect();
+    const tRect = e.target.getBoundingClientRect();
+    const left = tRect.left - aRect.left + tRect.width / 2;
+    const top = tRect.top - aRect.top;
+    tooltip.style.left = `${left}px`;
+    tooltip.style.top = `${top}px`;
+  }
+  function hideTip() {
+    tooltip.classList.remove('visible');
+    tooltip.setAttribute('aria-hidden', 'true');
+  }
+  svg.addEventListener('mouseover', (e) => { if (e.target.classList.contains('gh-cell')) showTip(e); });
+  svg.addEventListener('mouseout', (e) => { if (e.target.classList.contains('gh-cell')) hideTip(); });
+}
+
 function loadGitHubHeatmap() {
-  const img = document.getElementById('gh-heatmap');
   const container = document.getElementById('gh-heatmap-container');
-  if (!img || !container) return;
-  const baseSrc = `https://ghchart.rshah.org/2188ff/${GITHUB_USERNAME}`;
+  const tooltip = document.getElementById('gh-heatmap-tooltip');
+  if (!container || !tooltip) return;
+  const url = `https://github-contributions-api.jogruber.de/v4/${GITHUB_USERNAME}?y=last`;
   const maxAttempts = 4;
   let attempts = 0;
-  function retry() {
-    if (attempts >= maxAttempts) {
-      container.innerHTML = `<p class="gh-loading">Contribution graph available at <a href="https://github.com/${GITHUB_USERNAME}" target="_blank" rel="noopener noreferrer">github.com/${GITHUB_USERNAME}</a></p>`;
-      return;
-    }
+
+  function attempt() {
     attempts += 1;
-    setTimeout(() => { img.src = `${baseSrc}?retry=${attempts}`; }, attempts * 1200);
+    fetch(url, { cache: 'no-store' })
+      .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+      .then((data) => {
+        const days = (data && data.contributions) || [];
+        if (!days.length) throw new Error('no data');
+        renderHeatmap(container, tooltip, days);
+      })
+      .catch(() => {
+        if (attempts >= maxAttempts) {
+          container.innerHTML = `<p class="gh-loading">Contribution graph available at <a href="https://github.com/${GITHUB_USERNAME}" target="_blank" rel="noopener noreferrer">github.com/${GITHUB_USERNAME}</a></p>`;
+          return;
+        }
+        setTimeout(attempt, attempts * 1000);
+      });
   }
-  img.addEventListener('error', retry);
-  if (img.complete && img.naturalWidth === 0) retry();
+  attempt();
 }
 loadGitHubHeatmap();
 

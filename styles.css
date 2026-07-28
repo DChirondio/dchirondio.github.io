@@ -206,9 +206,23 @@ html[data-theme="light"] .icon-moon { display: none; }
    GITHUB
    ============================================================ */
 .github-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; }
-.github-heatmap-wrap { margin-bottom: 2rem; }
+.github-heatmap-wrap { position: relative; margin-bottom: 2rem; }
 .heatmap-label { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); margin-bottom: 0.8rem; }
-#gh-heatmap-container img { width: 100%; max-width: 100%; }
+#gh-heatmap-container { overflow-x: auto; }
+.gh-heatmap-svg { display: block; width: 100%; height: auto; min-width: 660px; }
+.gh-cell { transition: stroke 0.12s; cursor: pointer; }
+.gh-cell:hover { stroke: var(--text); stroke-width: 1.5px; }
+.gh-label { fill: var(--muted); font-family: var(--font-mono); font-size: 9px; }
+#gh-heatmap-tooltip {
+  position: absolute; z-index: 5; pointer-events: none;
+  transform: translate(-50%, calc(-100% - 8px));
+  background: var(--bg-elev); color: var(--text);
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 0.35rem 0.6rem; font-family: var(--font-mono); font-size: 0.72rem;
+  white-space: nowrap; box-shadow: var(--shadow);
+  opacity: 0; transition: opacity 0.12s;
+}
+#gh-heatmap-tooltip.visible { opacity: 1; }
 .gh-repos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
 .repo-card { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem; transition: transform 0.25s var(--ease), border-color 0.25s; }
 .repo-card:hover { transform: translateY(-3px); border-color: var(--accent); }

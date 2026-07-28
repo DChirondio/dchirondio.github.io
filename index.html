@@ -7,7 +7,7 @@
   <!-- ✏️ EDIT: your name + tagline for search engines / link previews -->
   <meta name="description" content="Diogo Chirôndio — Software Developer. Portfolio and selected work." />
   <meta name="author" content="Diogo Chirôndio" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self' https://api.github.com;" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self' https://api.github.com https://github-contributions-api.jogruber.de;" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>Diogo Chirôndio — Software Developer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -140,14 +140,10 @@
       <div class="github-heatmap-wrap">
         <p class="heatmap-label">Contribution heatmap</p>
         <div id="gh-heatmap-container">
-          <!-- ✏️ EDIT username in the URL if it ever changes -->
-          <img
-            id="gh-heatmap"
-            src="https://ghchart.rshah.org/2188ff/DChirondio"
-            alt="GitHub contribution chart for DChirondio"
-            loading="lazy"
-          />
+          <!-- Rendered by loadGitHubHeatmap() in scripts/main.js -->
+          <div class="gh-loading">Loading contribution heatmap…</div>
         </div>
+        <div id="gh-heatmap-tooltip" role="tooltip" aria-hidden="true"></div>
       </div>
       <p class="heatmap-label" style="margin-bottom:1rem">Top repositories</p>
       <div id="gh-repos" class="gh-repos-grid">
