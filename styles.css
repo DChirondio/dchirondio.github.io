@@ -169,7 +169,7 @@ html[data-theme="light"] .icon-moon { display: none; }
   border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
   padding: 0.35rem 0.7rem; border-radius: 999px;
 }
-.about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-content: start; }
+.about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-content: start; margin-top: -1.4rem; }
 .stat-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.4rem; }
 .stat-num { font-size: 2.4rem; font-weight: 700; color: var(--accent); }
 .stat-num .plus { font-size: 1.4rem; }
@@ -257,6 +257,7 @@ footer a { color: var(--accent); }
    ============================================================ */
 @media (max-width: 820px) {
   .about-grid { grid-template-columns: 1fr; }
+  .about-stats { margin-top: 0; }
   .nav-links {
     position: fixed; top: 0; right: 0; height: 100vh; width: min(75vw, 300px);
     background: var(--bg-elev); border-left: 1px solid var(--border);
