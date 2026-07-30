@@ -179,7 +179,7 @@ html[data-theme="light"] .icon-moon { display: none; }
    PROJECTS
    ============================================================ */
 .projects-intro { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; }
-.projects-intro p { color: var(--muted); max-width: 42ch; }
+.projects-intro > p { color: var(--muted); max-width: 42ch; }
 .projects-intro h2 { margin-bottom: 0; }
 
 .project-controls { display: flex; justify-content: flex-end; align-items: center; gap: 1rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
