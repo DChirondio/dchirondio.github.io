@@ -86,14 +86,12 @@ function projectMatches(p) {
 
 function renderProjects() {
   const visible = allProjects.filter(projectMatches);
-  const total = allProjects.length.toString().padStart(2, '0');
   if (visible.length === 0) {
     grid.innerHTML = '<p class="projects-empty">No projects match your search.</p>';
     return;
   }
   grid.innerHTML = visible.map((p) => `
     <article class="project-card reveal visible" aria-label="${escapeHtml(p.title)}">
-      <div class="project-num">${escapeHtml(p.id)} / ${total}</div>
       <h3 class="project-title">${escapeHtml(p.title)}</h3>
       <div class="project-sub">${escapeHtml(p.subtitle)}</div>
       <p class="project-desc">${escapeHtml(p.description)}</p>

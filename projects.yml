@@ -9,13 +9,6 @@
 #    • "url" can be a real link or null (no quotes on null).
 # =============================================================
 
-- id: "01"
-  title: "Chess4Android"
-  subtitle: "Mobile / Android"
-  description: "My first ever taste of mobile development. Still a university project, Chess4Android is a chess game built for Android in Kotlin — board rendering, piece movement and game-state logic on the device."
-  tech: ["Kotlin", "Android"]
-  url: "https://github.com/DChirondio/Chess4Android"
-
 - id: "02"
   title: "This Portfolio"
   subtitle: "Web / Static Site"
