@@ -20,6 +20,7 @@ html[data-theme="dark"] {
   --muted: #8b95a1;
   --border: #262b31;
   --shadow: 0 20px 50px -20px rgba(0,0,0,0.6);
+  --gh-empty: #20262c;
 }
 
 html[data-theme="light"] {
@@ -30,6 +31,7 @@ html[data-theme="light"] {
   --muted: #5c6672;
   --border: #e3e7ec;
   --shadow: 0 20px 50px -24px rgba(20,30,50,0.18);
+  --gh-empty: #ebedf0;
 }
 
 /* ============================================================
@@ -211,6 +213,7 @@ html[data-theme="light"] .icon-moon { display: none; }
 #gh-heatmap-container { overflow-x: auto; }
 .gh-heatmap-svg { display: block; width: 100%; height: auto; min-width: 660px; }
 .gh-cell { transition: stroke 0.12s; cursor: pointer; }
+.gh-cell-empty { fill: var(--gh-empty); }
 .gh-cell:hover { stroke: var(--text); stroke-width: 1.5px; }
 .gh-label { fill: var(--muted); font-family: var(--font-mono); font-size: 9px; }
 #gh-heatmap-tooltip {

@@ -259,8 +259,9 @@ function renderHeatmap(container, tooltip, days) {
       rect.setAttribute('width', CELL);
       rect.setAttribute('height', CELL);
       rect.setAttribute('rx', 2);
-      rect.setAttribute('class', 'gh-cell');
-      rect.setAttribute('fill', HEATMAP_COLORS[levelForCount(day.count)]);
+      const level = levelForCount(day.count);
+      rect.setAttribute('class', level === 0 ? 'gh-cell gh-cell-empty' : 'gh-cell');
+      if (level > 0) rect.setAttribute('fill', HEATMAP_COLORS[level]);
       const noun = day.count === 1 ? 'contribution' : 'contributions';
       rect.setAttribute('data-tip', `${day.count} ${noun} on ${formatHeatmapDate(day.date)}`);
       svg.appendChild(rect);
