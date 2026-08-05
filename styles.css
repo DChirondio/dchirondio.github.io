@@ -192,13 +192,14 @@ html[data-theme="light"] .icon-moon { display: none; }
 .project-card {
   background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 1.6rem; transition: transform 0.3s var(--ease), border-color 0.3s;
+  display: flex; flex-direction: column;
 }
 .project-card:hover { transform: translateY(-4px); border-color: var(--accent); }
 .project-num { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); margin-bottom: 0.8rem; }
 .project-title { font-size: 1.25rem; margin-bottom: 0.2rem; }
 .project-sub { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); margin-bottom: 0.8rem; }
 .project-desc { color: var(--muted); font-size: 0.9rem; margin-bottom: 1rem; }
-.project-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.project-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: auto; }
 .tech-badge { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text); background: color-mix(in srgb, var(--accent) 14%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); border-radius: 999px; padding: 0.2rem 0.5rem; }
 .project-link { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1rem; font-size: 0.85rem; color: var(--accent); }
 .project-card.hidden { display: none; }
