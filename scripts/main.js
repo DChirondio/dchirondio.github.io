@@ -92,6 +92,7 @@ function renderProjects() {
   }
   grid.innerHTML = visible.map((p) => `
     <article class="project-card reveal visible" aria-label="${escapeHtml(p.title)}">
+      ${p.id ? `<div class="project-num">${escapeHtml(p.id)}</div>` : ''}
       <h3 class="project-title">${escapeHtml(p.title)}</h3>
       <div class="project-sub">${escapeHtml(p.subtitle)}</div>
       <p class="project-desc">${escapeHtml(p.description)}</p>

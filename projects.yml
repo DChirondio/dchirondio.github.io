@@ -18,7 +18,7 @@
 
 - id: "02"
   title: "League-Rivals"
-  subtitle: ""
+  subtitle: "iOS app"
   description: "WIP"
-  tech: []
-  url: null
+  tech: ["Swift"]
+  url: "https://github.com/DChirondio/League-Rivals"
