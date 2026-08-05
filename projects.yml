@@ -9,9 +9,16 @@
 #    • "url" can be a real link or null (no quotes on null).
 # =============================================================
 
-- id: "02"
+- id: "01"
   title: "This Portfolio"
   subtitle: "Web / Static Site"
   description: "The site you're looking at — a zero-dependency portfolio built with plain HTML, CSS and JavaScript, deployed on GitHub Pages."
   tech: ["JavaScript", "CSS", "GitHub Pages"]
   url: "https://github.com/DChirondio/dchirondio.github.io"
+
+- id: "02"
+  title: "League-Rivals"
+  subtitle: ""
+  description: "WIP"
+  tech: []
+  url: null
