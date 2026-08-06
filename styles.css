@@ -203,6 +203,7 @@ html[data-theme="light"] .icon-moon { display: none; }
 .tech-badge { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text); background: color-mix(in srgb, var(--accent) 14%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); border-radius: 999px; padding: 0.2rem 0.5rem; }
 .project-link { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1rem; font-size: 0.85rem; color: var(--accent); }
 .project-link::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius); }
+.project-private { display: inline-flex; align-items: center; margin-top: 1rem; font-size: 0.85rem; font-weight: 600; color: #e5484d; }
 .project-card.hidden { display: none; }
 .projects-empty { grid-column: 1 / -1; color: var(--muted); font-family: var(--font-mono); font-size: 0.85rem; padding: 2rem 0; text-align: center; }
 
@@ -231,6 +232,9 @@ html[data-theme="light"] .icon-moon { display: none; }
 .gh-repos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
 .repo-card { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem; transition: transform 0.25s var(--ease), border-color 0.25s; }
 .repo-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+.repo-card-private { cursor: default; }
+.repo-card-private:hover { transform: none; border-color: var(--border); }
+.repo-private-tag { font-family: var(--font-mono); font-size: 0.62rem; font-weight: 600; color: #e5484d; border: 1px solid color-mix(in srgb, #e5484d 45%, transparent); border-radius: 999px; padding: 0.05rem 0.4rem; margin-left: 0.35rem; vertical-align: middle; }
 .repo-name { font-weight: 600; margin-bottom: 0.3rem; }
 .repo-desc { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.9rem; min-height: 2.4em; }
 .repo-meta { display: flex; gap: 1rem; font-size: 0.72rem; color: var(--muted); font-family: var(--font-mono); }

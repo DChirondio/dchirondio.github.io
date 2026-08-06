@@ -71,7 +71,8 @@ function parseProjectsYaml(text) {
     subtitle: p.subtitle || '',
     description: p.description || '',
     tech: Array.isArray(p.tech) ? p.tech : [],
-    url: p.url || null
+    url: p.url || null,
+    private: p.private === true || p.private === 'true'
   }));
 }
 
@@ -97,7 +98,9 @@ function renderProjects() {
       <div class="project-sub">${escapeHtml(p.subtitle)}</div>
       <p class="project-desc">${escapeHtml(p.description)}</p>
       <div class="project-tech">${p.tech.map((t) => `<span class="tech-badge">${escapeHtml(t)}</span>`).join('')}</div>
-      ${p.url ? `<a class="project-link" href="${escapeHtml(p.url)}" target="_blank" rel="noopener noreferrer">
+      ${p.private
+        ? `<span class="project-private">Private</span>`
+        : p.url ? `<a class="project-link" href="${escapeHtml(p.url)}" target="_blank" rel="noopener noreferrer">
         View project
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M7 7h10v10"/></svg>
       </a>` : ''}
@@ -139,7 +142,7 @@ async function loadGitHubRepos() {
       .sort((a, b) => (b.stargazers_count - a.stargazers_count) || (new Date(b.updated_at) - new Date(a.updated_at)))
       .slice(0, 6);
     if (top.length === 0) throw new Error('No repos');
-    container.innerHTML = top.map((r) => `
+    const cards = top.map((r) => `
       <a href="${r.html_url}" target="_blank" rel="noopener noreferrer" class="repo-card" aria-label="${escapeHtml(r.name)} repository">
         <div class="repo-name">${escapeHtml(r.name)}</div>
         <div class="repo-desc">${escapeHtml(r.description || 'No description available.')}</div>
@@ -148,7 +151,21 @@ async function loadGitHubRepos() {
           <span>★ ${r.stargazers_count}</span>
           <span>⑂ ${r.forks_count}</span>
         </div>
-      </a>`).join('');
+      </a>`);
+    /* League-Rivals is private, so it isn't returned by the API. Show it as a
+       non-linking card next to the portfolio repo to reflect it in the heatmap. */
+    const privateCard = `
+      <div class="repo-card repo-card-private" aria-label="League-Rivals repository (private)">
+        <div class="repo-name">League-Rivals <span class="repo-private-tag">Private</span></div>
+        <div class="repo-desc">iOS app — private repository, part of my contribution heatmap.</div>
+        <div class="repo-meta">
+          <span><span class="repo-lang-dot"></span>Swift</span>
+        </div>
+      </div>`;
+    const portfolioIdx = top.findIndex((r) => r.name.toLowerCase() === 'dchirondio.github.io');
+    if (portfolioIdx === -1) cards.push(privateCard);
+    else cards.splice(portfolioIdx + 1, 0, privateCard);
+    container.innerHTML = cards.join('');
   } catch (e) {
     container.innerHTML = `
       <a href="https://github.com/${GITHUB_USERNAME}" target="_blank" rel="noopener noreferrer" class="repo-card">

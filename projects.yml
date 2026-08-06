@@ -21,4 +21,5 @@
   subtitle: "iOS app"
   description: "WIP"
   tech: ["Swift"]
-  url: "https://github.com/DChirondio/League-Rivals"
+  url: null
+  private: true
